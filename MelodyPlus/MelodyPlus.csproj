@@ -10,10 +10,10 @@
     <Compile Remove="Browser.axaml.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Remove="Spot_Stream_Logo.ico" />
+    <None Remove="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
-    <AvaloniaResource Include="Spot_Stream_Logo.ico" />
+    <AvaloniaResource Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />

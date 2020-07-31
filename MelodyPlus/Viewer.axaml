@@ -10,7 +10,7 @@
         CanResize="False"
         Topmost="True"
         FontFamily="Calibri"
-        Icon="/Spot_Stream_Logo.ico"
+         Icon="/Icon.ico"
         Background="{Binding BackColour}"
         Foreground="{Binding ForeColour}">
   <StackPanel x:Name="content">
