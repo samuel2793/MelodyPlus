@@ -1,0 +1,47 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="MelodyPlus.MainWindow"
+        Title="MelodyPlus Settings"
+        Icon="/Spot_Stream_Logo.ico"
+        SizeToContent="WidthAndHeight"
+        SystemDecorations="None"
+        CanResize="False"
+        Background="{Binding BackColour}"
+        Foreground="{Binding ForeColour}">
+  <Window.Styles>
+    <Style Selector="Button.toolbar /template/ ContentPresenter">
+      <Setter Property="CornerRadius" Value="20"/>
+    </Style>
+  </Window.Styles>
+  <StackPanel>
+    <Grid>
+      <Rectangle Fill="{Binding AccentColour}" Height="15" Width="NaN" Cursor="Hand"></Rectangle>
+      <StackPanel Orientation="Horizontal" >
+        <Button Margin="1" Classes="toolbar" FontSize="9" Background="Red" Height="13" Width="13" BorderBrush="Black" Padding="0" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Close">X</Button>
+        <Button Margin="1" Classes="toolbar" FontSize="9" Background="Green" Height="13" Width="13"  BorderBrush="Black" Padding="0" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Minimize">-</Button>
+      </StackPanel>
+    </Grid>
+    <Grid>
+      <Rectangle Fill="{Binding BackColour}" Height="NaN" Width="NaN"></Rectangle>
+      <StackPanel Margin="5">
+        <CheckBox Background="{Binding BackColour}"
+            Foreground="{Binding ForeColour}" IsChecked="{Binding DarkMode}" Checked="DarkModeOn" Unchecked="LightModeOn">Dark Mode?</CheckBox>
+        <CheckBox Background="{Binding BackColour}"
+           Foreground="{Binding ForeColour}" IsChecked="{Binding ProgressBar}" Checked="SettingChanged" Unchecked="SettingChanged">Show Progress</CheckBox>
+        <CheckBox Background="{Binding BackColour}"
+           Foreground="{Binding ForeColour}" IsChecked="{Binding Album}" Checked="SettingChanged" Unchecked="SettingChanged">Show Album Name</CheckBox>
+        <CheckBox Background="{Binding BackColour}"
+           Foreground="{Binding ForeColour}" IsChecked="{Binding Playlist}" Checked="SettingChanged" Unchecked="SettingChanged">Show Playlist Name</CheckBox>
+        <CheckBox Background="{Binding BackColour}"
+           Foreground="{Binding ForeColour}" IsChecked="{Binding PlaylistCode}" Checked="SettingChanged" Unchecked="SettingChanged">Show Playlist Share Code</CheckBox>
+        <Button Background="{Binding BackColour}"
+            Foreground="{Binding ForeColour}" Width="160"
+                    Click="OnButtonClick"
+                    Content="Open Viewer"/>
+      </StackPanel>
+    </Grid>
+  </StackPanel>
+</Window>

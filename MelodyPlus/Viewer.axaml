@@ -1,0 +1,38 @@
+﻿<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="MelodyPlus.Viewer"
+        Title="MelodyPlus"
+        SizeToContent="WidthAndHeight"
+        SystemDecorations="None"
+        CanResize="False"
+        Topmost="True"
+        FontFamily="Calibri"
+        Icon="/Spot_Stream_Logo.ico"
+        Background="{Binding BackColour}"
+        Foreground="{Binding ForeColour}">
+  <StackPanel x:Name="content">
+    <Rectangle Fill="{Binding AccentColour}" Height="5" Width="NaN" Cursor="{Binding Cursor}"></Rectangle>
+    <Grid>
+      <Rectangle Fill="{Binding BackColour}" Height="NaN" Width="NaN"></Rectangle>
+      <StackPanel Orientation="Horizontal">
+        <Image Margin="5" Source="{Binding AlbumCover}" x:Name="albumCover"></Image>
+        <StackPanel Margin="5" x:Name="info">
+          <TextBlock FontSize="24" Text="{Binding Track}"></TextBlock>
+          <TextBlock FontSize="20" Text="{Binding Artist}"></TextBlock>
+          <TextBlock FontSize="20" IsVisible="{Binding Settings.Album}" Text="{Binding Album}"></TextBlock>
+          <TextBlock FontSize="20" IsVisible="{Binding Settings.Playlist}" Text="{Binding Playlist}"></TextBlock>
+          <Grid IsVisible="{Binding Settings.ProgressBar}">
+            <ProgressBar  Value="{Binding CurrentPosition}" Foreground="{Binding AccentColour}"  Background="{Binding AccentColourFaded}" Minimum="0" Maximum="{Binding TrackLength}"></ProgressBar>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="20" Foreground="White" Text="{Binding ProgressText}"></TextBlock>
+          </Grid>
+        </StackPanel>
+        <Image Margin="5" IsVisible="{Binding Settings.PlaylistCode}" Source="{Binding PlaylistCode}" x:Name="playlistCode"></Image>
+      </StackPanel>
+    </Grid>
+  </StackPanel>
+
+
+</Window>
