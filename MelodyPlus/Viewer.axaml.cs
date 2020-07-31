@@ -1,28 +1,19 @@
 ﻿using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
-using MelodyPlus;
 using SpotifyAPI.Web;
 using SpotifyAPI.Web.Auth;
 using SpotifyAPI.Web.Enums;
 using SpotifyAPI.Web.Models;
-using System.Diagnostics;
-using System.Runtime.InteropServices;
-using System.Data;
 using System.Threading.Tasks;
 using System;
 using DominantColor;
-using System.Drawing;
 using ReactiveUI;
-using System.IO;
-using System.Drawing.Imaging;
 using Avalonia.Input;
-using Avalonia.Controls.Shapes;
 using Avalonia.Media;
 using System.Linq;
-using Avalonia.Skia.Helpers;
 using QRCoder;
-using System.Drawing.Drawing2D;
+using System.IO;
 
 namespace MelodyPlus
 {
@@ -87,8 +78,9 @@ namespace MelodyPlus
 #endif
         }
 
-        internal void UpdateImageHeight() { 
-            
+        internal void UpdateImageHeight()
+        {
+
             var info = this.FindControl<StackPanel>("info");
             var albumCover = this.FindControl<Avalonia.Controls.Image>("albumCover");
             var playlistCode = this.FindControl<Avalonia.Controls.Image>("playlistCode");
@@ -110,7 +102,7 @@ namespace MelodyPlus
                 }
             }
         }
-        
+
         public void SetSize(SizeClass size)
         {
             //Model.Size = size;
@@ -119,7 +111,7 @@ namespace MelodyPlus
         private static SpotifyWebAPI _spotify;
         private PlaybackContext _playback;
         private string _currentTrackId;
-        public QRCode QRCode;
+        public PngByteQRCode QRCode;
         private string LastPlaylist;
         private System.Threading.CancellationTokenSource authready = new System.Threading.CancellationTokenSource();
         public static string ExchangeServerURI;
@@ -138,7 +130,7 @@ namespace MelodyPlus
             {
                 lastToken = await auth.RefreshAuthAsync(UserSettings.Settings.RefreshToken);
                 Console.WriteLine("Token Gotten");
-                if(lastToken == null)
+                if (lastToken == null)
                 {
                     Console.WriteLine("Token is null? O_o");
                 }
@@ -165,7 +157,7 @@ namespace MelodyPlus
                     };
                     UserSettings.Settings.RefreshToken = lastToken.RefreshToken;
                     await Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() => UserSettings.Save());
-                    
+
                     authready.Cancel();
                 };
                 auth.Start();
@@ -180,16 +172,20 @@ namespace MelodyPlus
 
             };
         }
-        
+
         private void InitializeComponent()
         {
             AvaloniaXamlLoader.Load(this);
+        }
+        public static string RRGGBBAAToAARRGGBB(string s1)
+        {
+            return s1.Substring(s1.Length - 2) + s1.Remove(s1.Length - 2);
         }
         public async Task CheckTrack()
         {
             while (true)
             {
-                
+
                 if (_spotify is null)
                 {
                     await Task.Delay(-1, authready.Token).ContinueWith(_ => { }, TaskContinuationOptions.OnlyOnCanceled);
@@ -207,7 +203,7 @@ namespace MelodyPlus
                 // With HasError() you can check the error that got back of the spotify API.
                 if (_playback.HasError())
                 {
-                   // Logger.Log(2, "Error Status: " + _playback.Error.Status + " Msg: " + _playback.Error.Message);
+                    // Logger.Log(2, "Error Status: " + _playback.Error.Status + " Msg: " + _playback.Error.Message);
                     await Task.Delay(5000);
                     continue;
                 }
@@ -220,7 +216,7 @@ namespace MelodyPlus
                 if ((_currentTrackId ?? "") == (_playback.Item.Uri ?? ""))
                 {
                     Model.CurrentPosition = _playback.ProgressMs;
-                    await Task.Delay(1000);                    
+                    await Task.Delay(1000);
                     continue;
                 }
                 _currentTrackId = _playback.Item.Uri;
@@ -241,17 +237,17 @@ namespace MelodyPlus
                 Model.Album = _playback.Item.Album.Name;
                 if (_playback.Item.Album.Images.Count > 0)
                 {
-                    
-                        var albumCover = Helpers.GetImageFromUri(_playback.Item.Album.Images[1].Url);
-                        Model.AlbumCover =  _playback.Item.Album.Images[0].Url is object ? Helpers.GetBitmapFromImage(albumCover) : null;
-                        if (Model.AlbumCover != null)
-                        {
-                            var hueColorCalculator = new DominantHueColorCalculator();
-                            System.Drawing.Color hueColor = hueColorCalculator.CalculateDominantColor(albumCover as Bitmap);
-                            UserSettings.Settings.AccentColour = Model.AccentColour = new SolidColorBrush(new Avalonia.Media.Color(hueColor.A,hueColor.R,hueColor.G,hueColor.B));
-                            Model.AccentColourFaded = new SolidColorBrush(new Avalonia.Media.Color((byte)(hueColor.A*0.4), hueColor.R, hueColor.G, hueColor.B));
-                        }
-                    
+
+                    var albumCover = Helpers.GetImageFromUri(_playback.Item.Album.Images[1].Url);
+                    Model.AlbumCover = _playback.Item.Album.Images[0].Url is object ? Helpers.GetBitmapFromImage(albumCover) : null;
+                    if (Model.AlbumCover != null)
+                    {
+                        var hueColorCalculator = new DominantHueColorCalculator();
+                        SixLabors.ImageSharp.Color hueColor = hueColorCalculator.CalculateDominantColor(albumCover);
+                        UserSettings.Settings.AccentColour = Model.AccentColour = new SolidColorBrush(Avalonia.Media.Color.Parse($"#{RRGGBBAAToAARRGGBB(hueColor.ToHex())}"));                        
+                        Model.AccentColourFaded = new SolidColorBrush(Avalonia.Media.Color.Parse($"#{RRGGBBAAToAARRGGBB(hueColor.WithAlpha(0.4f).ToHex())}"));
+                    }
+
                 }
                 else
                 {
@@ -269,14 +265,22 @@ namespace MelodyPlus
                             var payload = new PayloadGenerator.Url(playlist.ExternalUrls["spotify"]);
                             var qrgenerator = new QRCodeGenerator();
                             var qrcodeData = qrgenerator.CreateQrCode(payload.ToString(), QRCodeGenerator.ECCLevel.Q);
-                            QRCode = new QRCode(qrcodeData);
+                            QRCode = new PngByteQRCode(qrcodeData);
                             if (UserSettings.Settings.DarkMode)
                             {
-                                Model.PlaylistCode = Helpers.GetBitmapFromImage(QRCode.GetGraphic(6, System.Drawing.Color.FromArgb(171, 171, 171), System.Drawing.Color.FromArgb(17,17,17), false));
+                                var png = QRCode.GetGraphic(6, new byte[4] { 171, 171, 171, 255 }, new byte[4] { 17, 17, 17, 255 });
+                                using var stream = new MemoryStream(png);
+                                stream.Seek(0, SeekOrigin.Begin);
+
+                                Model.PlaylistCode = new Avalonia.Media.Imaging.Bitmap(stream);
                             }
                             else
                             {
-                                Model.PlaylistCode = Helpers.GetBitmapFromImage(QRCode.GetGraphic(6, System.Drawing.Color.FromArgb(64, 64, 64), System.Drawing.Color.FromArgb(255, 255, 255), false));
+                                var png = QRCode.GetGraphic(6, new byte[4] { 64,64,64, 255 },new byte[4] { 255,255,255, 255 });
+                                using var stream = new MemoryStream(png);
+                                stream.Seek(0, SeekOrigin.Begin);
+
+                                Model.PlaylistCode = new Avalonia.Media.Imaging.Bitmap(stream);
                             }
                             LastPlaylist = playlistID;
                         }
@@ -297,6 +301,6 @@ namespace MelodyPlus
                 }
             }
         }
-        
+
     }
 }

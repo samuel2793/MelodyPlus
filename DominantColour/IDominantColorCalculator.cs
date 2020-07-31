@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
 
 namespace DominantColor
 {
     public interface IDominantColorCalculator
     {
-        Color CalculateDominantColor(Bitmap bitmap);
+        Color CalculateDominantColor<TPixel>(Image<TPixel> bitmap) where TPixel : unmanaged, IPixel<TPixel>;
     }
 }

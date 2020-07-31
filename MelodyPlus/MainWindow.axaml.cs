@@ -4,11 +4,7 @@ using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
-
-using MelodyPlus;
-using System;
-using System.Diagnostics;
-using System.Reactive.Linq;
+using System.IO;
 using System.Threading.Tasks;
 
 namespace MelodyPlus
@@ -23,7 +19,7 @@ namespace MelodyPlus
 
             //var sizeCombo = this.FindControl<ComboBox>("size");
             //sizeCombo.SelectedIndex = UserSettings.Settings.Size.ID;
-            Closed += (a,e) => viewer?.Close();
+            Closed += (a, e) => viewer?.Close();
             //new Browser().Show();
 #if DEBUG
             this.AttachDevTools();
@@ -66,7 +62,7 @@ namespace MelodyPlus
             viewer.UpdateImageHeight();
             await viewer.CheckTrack();
         }
-        private void SettingChanged(object sender,RoutedEventArgs e)
+        private void SettingChanged(object sender, RoutedEventArgs e)
         {
             UserSettings.Save();
             Task.Delay(1).ContinueWith(t => Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() => viewer?.UpdateImageHeight(), Avalonia.Threading.DispatcherPriority.Loaded));
@@ -79,7 +75,11 @@ namespace MelodyPlus
                 viewer.Model.ForeColour = new SolidColorBrush(Color.Parse("#ababab"));
                 if (viewer.QRCode != null)
                 {
-                    viewer.Model.PlaylistCode = Helpers.GetBitmapFromImage(viewer.QRCode.GetGraphic(6, System.Drawing.Color.FromArgb(171, 171, 171), System.Drawing.Color.FromArgb(17, 17, 17), false));
+                    var png = viewer.QRCode.GetGraphic(6, new byte[4] { 171, 171, 171, 255 }, new byte[4] { 17, 17, 17, 255 });
+                    using var stream = new MemoryStream(png);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    viewer.Model.PlaylistCode = new Avalonia.Media.Imaging.Bitmap(stream);
                 }
             }
             UserSettings.Settings.BackColour = new SolidColorBrush(Color.Parse("#111111"));
@@ -95,7 +95,11 @@ namespace MelodyPlus
                 viewer.Model.ForeColour = new SolidColorBrush(Color.Parse("#404040"));
                 if (viewer.QRCode != null)
                 {
-                    viewer.Model.PlaylistCode = Helpers.GetBitmapFromImage(viewer.QRCode.GetGraphic(6, System.Drawing.Color.FromArgb(64, 64, 64), System.Drawing.Color.FromArgb(255, 255, 255), false));
+                    var png = viewer.QRCode.GetGraphic(6, new byte[4] { 64, 64, 64, 255 }, new byte[4] { 255, 255, 255, 255 });
+                    using var stream = new MemoryStream(png);
+                    stream.Seek(0, SeekOrigin.Begin);
+
+                    viewer.Model.PlaylistCode = new Avalonia.Media.Imaging.Bitmap(stream);
                 }
             }
             UserSettings.Settings.BackColour = new SolidColorBrush(Color.Parse("#ffffff"));

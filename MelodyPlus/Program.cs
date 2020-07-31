@@ -1,7 +1,6 @@
 ﻿using System;
 using Avalonia;
 using Avalonia.ReactiveUI;
-//using CefGlue.Avalonia;
 
 namespace MelodyPlus
 {
@@ -11,7 +10,6 @@ namespace MelodyPlus
         // SynchronizationContext-reliant code before AppMain is called: things aren't initialized
         // yet and stuff might break.
         public static void Main(string[] args) => BuildAvaloniaApp()
-            //.ConfigureCefGlue(args)
             .StartWithClassicDesktopLifetime(args);
 
         // Avalonia configuration, don't remove; also used by visual designer.

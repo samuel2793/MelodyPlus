@@ -1,12 +1,8 @@
 ﻿using Avalonia.Media;
 using ReactiveUI;
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
-using System.Reactive.Linq;
 using System.Runtime.Serialization;
-using System.Text;
 
 namespace MelodyPlus
 {
@@ -84,7 +80,6 @@ namespace MelodyPlus
         public bool Playlist { get => playlist; set => this.RaiseAndSetIfChanged(ref playlist, value); }
         [DataMember]
         public bool PlaylistCode { get => playlistCode; set => this.RaiseAndSetIfChanged(ref playlistCode, value); }
-        //public ObservableCollection<SizeClass> Sizes { get; set; } = new ObservableCollection<SizeClass>(new List<SizeClass> { SizeClass.Tiny, SizeClass.Small, SizeClass.Medium, SizeClass.Large });
         [DataMember]
         public string ProgressBarStyle { get; set; }
         [DataMember]

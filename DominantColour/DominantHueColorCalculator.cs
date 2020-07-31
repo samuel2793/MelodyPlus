@@ -1,10 +1,8 @@
-﻿using System;
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.ColorSpaces;
+using SixLabors.ImageSharp.PixelFormats;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DominantColor
 {
@@ -74,14 +72,14 @@ namespace DominantColor
         /// </summary>
         /// <param name="bitmap"></param>
         /// <returns></returns>
-        public Color CalculateDominantColor(Bitmap bitmap)
+        public Color CalculateDominantColor<TPixel>(Image<TPixel> bitmap) where TPixel : unmanaged, IPixel<TPixel>
         {
             this.hueHistogram = ColorUtils.GetColorHueHistogram(bitmap, this.saturationThreshold,
                 this.brightnessThreshold);
             this.smoothedHueHistogram = ColorUtils.SmoothHistogram(this.hueHistogram, this.hueSmoothFactor);
             int dominantHue = GetDominantHue(this.smoothedHueHistogram);
-
-            return ColorUtils.ColorFromHSV(dominantHue, 1, 1);
+            var rgb = new SixLabors.ImageSharp.ColorSpaces.Conversion.ColorSpaceConverter().ToRgb(new Hsv(dominantHue, 1, 0.8f));
+            return Color.FromRgb((byte)(rgb.R*255), (byte)(rgb.G * 255), (byte)(rgb.B * 255));
         }
     }
 }

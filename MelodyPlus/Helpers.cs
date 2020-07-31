@@ -1,18 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
-using System.Text;
+using SixLabors.ImageSharp;
 
 namespace MelodyPlus
 {
     class Helpers
     {
-        public static Avalonia.Media.Imaging.Bitmap GetBitmapFromImage(System.Drawing.Image image)
+        public static Avalonia.Media.Imaging.Bitmap GetBitmapFromImage(Image image)
         {
             using var stream = new MemoryStream();
-            image.Save(stream, ImageFormat.Png);
+            image.Save(stream,SixLabors.ImageSharp.Formats.Png.PngFormat.Instance);
             try
             {
                 stream.Seek(0, SeekOrigin.Begin);
@@ -23,9 +20,9 @@ namespace MelodyPlus
                 return null;
             }
         }
-        public static Avalonia.Media.Imaging.Bitmap GetBitmapFromURL(string url)
+        public static Image<SixLabors.ImageSharp.PixelFormats.Argb32> GetImageFromUri(string url)
         {
-            Avalonia.Media.Imaging.Bitmap retVal = null;
+            Image<SixLabors.ImageSharp.PixelFormats.Argb32> retVal = null;
             if (!string.IsNullOrWhiteSpace(url))
             {
                 var req = System.Net.WebRequest.Create(url.Trim());
@@ -36,24 +33,7 @@ namespace MelodyPlus
                         using var memstream = new MemoryStream();
                         stream.CopyTo(memstream);
                         memstream.Seek(0, SeekOrigin.Begin);
-                        retVal = new Avalonia.Media.Imaging.Bitmap(memstream);
-                    }
-                }
-            }
-            return retVal;
-            //return GetBitmapFromImage(GetImageFromUri(url));
-        }
-        public static Image GetImageFromUri(string url)
-        {
-            Image retVal = null;
-            if (!string.IsNullOrWhiteSpace(url))
-            {
-                var req = System.Net.WebRequest.Create(url.Trim());
-                using (var request = req.GetResponse())
-                {
-                    using (var stream = request.GetResponseStream())
-                    {
-                        retVal = new Bitmap(Image.FromStream(stream));
+                        retVal = Image.Load(memstream).CloneAs<SixLabors.ImageSharp.PixelFormats.Argb32>();
                     }
                 }
             }
