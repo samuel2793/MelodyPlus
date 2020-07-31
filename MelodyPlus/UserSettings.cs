@@ -20,7 +20,7 @@ namespace MelodyPlus
             Color = "Green",
             ProgressBarStyle = "Blocks"
         };
-        private static string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Spotify-Avalonia");
+        private static string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "MelodyPlus");
         private static string path = Path.Combine(directory, "Settings.json");
         private bool darkMode;
         private IBrush backColour = new SolidColorBrush(Avalonia.Media.Color.Parse("#111111"));
