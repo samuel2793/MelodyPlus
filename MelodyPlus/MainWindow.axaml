@@ -2,10 +2,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i18n="clr-namespace:MelodyPlus.Localization;assembly=MelodyPlus"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="MelodyPlus.MainWindow"
         Title="MelodyPlus Settings"
-        Icon="/Spot_Stream_Logo.ico"
+        Icon="/Icon.ico"
         SizeToContent="WidthAndHeight"
         SystemDecorations="None"
         CanResize="False"
@@ -14,6 +15,12 @@
   <Window.Styles>
     <Style Selector="Button.toolbar /template/ ContentPresenter">
       <Setter Property="CornerRadius" Value="20"/>
+    </Style>
+    <Style Selector="VirtualizingStackPanel">
+      <Setter Property="Background" Value="{Binding BackColour}"/>
+    </Style>
+    <Style Selector="ToggleButton /template/ ContentPresenter /template/ Path">
+      <Setter Property="Fill" Value="{Binding ForeColour}"/>
     </Style>
   </Window.Styles>
   <StackPanel>
@@ -27,20 +34,30 @@
     <Grid>
       <Rectangle Fill="{Binding BackColour}" Height="NaN" Width="NaN"></Rectangle>
       <StackPanel Margin="5">
+        <!--<Button Background="{Binding BackColour}"
+            Foreground="{Binding ForeColour}" Click="SignOut">Clear stored Token</Button>-->
+        <ComboBox SelectedItem="{Binding Culture}" Background="{Binding BackColour}" Width="160"
+            Foreground="{Binding ForeColour}" Items="{Binding SupportedCultures, Mode=OneTime}">
+          <ComboBox.ItemTemplate>
+            <DataTemplate>
+              <TextBlock  Text="{Binding NativeName}"/>
+            </DataTemplate>
+          </ComboBox.ItemTemplate>
+        </ComboBox>
         <CheckBox Background="{Binding BackColour}"
-            Foreground="{Binding ForeColour}" IsChecked="{Binding DarkMode}" Checked="DarkModeOn" Unchecked="LightModeOn">Dark Mode?</CheckBox>
+            Foreground="{Binding ForeColour}" Margin="5" IsChecked="{Binding DarkMode}" Checked="DarkModeOn" Unchecked="LightModeOn" Content="{i18n:Translate DarkMode}"></CheckBox>
         <CheckBox Background="{Binding BackColour}"
-           Foreground="{Binding ForeColour}" IsChecked="{Binding ProgressBar}" Checked="SettingChanged" Unchecked="SettingChanged">Show Progress</CheckBox>
+           Foreground="{Binding ForeColour}" Margin="5" IsChecked="{Binding ProgressBar}" Checked="SettingChanged" Unchecked="SettingChanged" Content="{i18n:Translate ShowProgress}"></CheckBox>
         <CheckBox Background="{Binding BackColour}"
-           Foreground="{Binding ForeColour}" IsChecked="{Binding Album}" Checked="SettingChanged" Unchecked="SettingChanged">Show Album Name</CheckBox>
+           Foreground="{Binding ForeColour}" Margin="5" IsChecked="{Binding Album}" Checked="SettingChanged" Unchecked="SettingChanged" Content="{i18n:Translate ShowAlbumName}"></CheckBox>
         <CheckBox Background="{Binding BackColour}"
-           Foreground="{Binding ForeColour}" IsChecked="{Binding Playlist}" Checked="SettingChanged" Unchecked="SettingChanged">Show Playlist Name</CheckBox>
+           Foreground="{Binding ForeColour}" Margin="5" IsChecked="{Binding Playlist}" Checked="SettingChanged" Unchecked="SettingChanged" Content="{i18n:Translate ShowPlaylistName}"></CheckBox>
         <CheckBox Background="{Binding BackColour}"
-           Foreground="{Binding ForeColour}" IsChecked="{Binding PlaylistCode}" Checked="SettingChanged" Unchecked="SettingChanged">Show Playlist Share Code</CheckBox>
+           Foreground="{Binding ForeColour}" Margin="5" IsChecked="{Binding PlaylistCode}" Checked="SettingChanged" Unchecked="SettingChanged"  Content="{i18n:Translate ShowPlaylistShareCode}"></CheckBox>
         <Button Background="{Binding BackColour}"
             Foreground="{Binding ForeColour}" Width="160"
                     Click="OnButtonClick"
-                    Content="Open Viewer"/>
+                    Content="{i18n:Translate OpenViewer}"/>
       </StackPanel>
     </Grid>
   </StackPanel>

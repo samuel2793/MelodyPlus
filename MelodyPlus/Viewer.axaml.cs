@@ -103,10 +103,6 @@ namespace MelodyPlus
             }
         }
 
-        public void SetSize(SizeClass size)
-        {
-            //Model.Size = size;
-        }
         private Token lastToken;
         private static SpotifyWebAPI _spotify;
         private PlaybackContext _playback;

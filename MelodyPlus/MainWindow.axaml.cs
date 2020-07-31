@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MelodyPlus
@@ -13,10 +14,13 @@ namespace MelodyPlus
     {
         public MainWindow()
         {
-            UserSettings.Load();
-            DataContext = UserSettings.Settings;
-            InitializeComponent();
+            //Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("fr-FR");
 
+            UserSettings.Load();            
+            DataContext = UserSettings.Settings;
+            
+            InitializeComponent();
+            UserSettings.Settings.Culture = Thread.CurrentThread.CurrentUICulture;
             //var sizeCombo = this.FindControl<ComboBox>("size");
             //sizeCombo.SelectedIndex = UserSettings.Settings.Size.ID;
             Closed += (a, e) => viewer?.Close();
@@ -50,6 +54,12 @@ namespace MelodyPlus
         private void Close(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+        private void SignOut(object sender, RoutedEventArgs e)
+        {
+            UserSettings.Settings.RefreshToken = null;
+            UserSettings.Save();
+            viewer?.Close();
         }
         Viewer viewer;
         private async void OnButtonClick(object sender, RoutedEventArgs e)

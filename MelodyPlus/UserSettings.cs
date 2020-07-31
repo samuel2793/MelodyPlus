@@ -1,39 +1,22 @@
 ﻿using Avalonia.Media;
+using MelodyPlus.Localization;
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Runtime.Serialization;
+using System.Threading;
 
 namespace MelodyPlus
 {
-    [DataContract]
-    public class SizeClass
-    {
-        [DataMember]
-        public int ID { get; set; }
-        [DataMember]
-        public string Text { get; set; }
-
-        
-
-        public static SizeClass Tiny = new SizeClass(0, "Tiny");
-        public static SizeClass Small = new SizeClass(1, "Small");
-        public static SizeClass Medium = new SizeClass(2, "Medium");
-        public static SizeClass Large = new SizeClass(3, "Large");
-        public SizeClass() { }
-        public SizeClass(int v1, string v2)
-        {
-            ID = v1;
-            Text = v2;
-        }
-    }
+    
     public class UserSettings : ReactiveObject
     {
         public static UserSettings Settings = new UserSettings();
         private static UserSettings Default => new UserSettings()
         {
             DarkMode = true,
-            //Size = SizeClass.Medium,
             Color = "Green",
             ProgressBarStyle = "Blocks"
         };
@@ -43,6 +26,7 @@ namespace MelodyPlus
         private IBrush backColour = new SolidColorBrush(Avalonia.Media.Color.Parse("#111111"));
         private IBrush foreColour = new SolidColorBrush(Avalonia.Media.Color.Parse("#ababab"));
         private IBrush accentColour = new SolidColorBrush(Avalonia.Media.Color.Parse("#ababab"));
+        private CultureInfo culture = CultureInfo.CurrentUICulture;
         private bool progressBar;
         private bool album;
         private bool playlist;
@@ -89,5 +73,20 @@ namespace MelodyPlus
         [DataMember]
         public IBrush ForeColour { get => foreColour; set => this.RaiseAndSetIfChanged(ref foreColour, value); }
         public IBrush AccentColour { get => accentColour; set => this.RaiseAndSetIfChanged(ref accentColour, value); }
+
+        public CultureInfo Culture
+        {
+            get => culture; set
+            {
+                this.RaiseAndSetIfChanged(ref culture, value);
+                if (value != null)
+                {
+                    Thread.CurrentThread.CurrentUICulture = value;
+                    Translator.Instance.Invalidate();
+                }
+            }
+        }
+
+        public List<CultureInfo> SupportedCultures { get; set; } = new List<CultureInfo> { CultureInfo.GetCultureInfo("en-GB"), CultureInfo.GetCultureInfo("fr-FR"), CultureInfo.GetCultureInfo("ko-KR") };
     }
 }
