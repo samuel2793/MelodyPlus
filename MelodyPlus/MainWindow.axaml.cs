@@ -5,6 +5,7 @@ using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
 using Avalonia.Media;
 using System.IO;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -21,6 +22,7 @@ namespace MelodyPlus
             
             InitializeComponent();
             UserSettings.Settings.Culture = Thread.CurrentThread.CurrentUICulture;
+            this.FindControl<TextBlock>("AppVersion").Text = $"Melody Plus {Assembly.GetEntryAssembly().GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion}";
             //var sizeCombo = this.FindControl<ComboBox>("size");
             //sizeCombo.SelectedIndex = UserSettings.Settings.Size.ID;
             Closed += (a, e) => viewer?.Close();

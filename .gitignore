@@ -351,3 +351,7 @@ MigrationBackup/
 
 # Secrets
 Secrets.json
+
+Release
+
+*.zip

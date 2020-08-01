@@ -7,7 +7,7 @@ namespace DominantColor
 {
     public class ColorUtils
     {
-        internal static Dictionary<int, uint> GetColorHueHistogram<TPixel>(SixLabors.ImageSharp.Image<TPixel> bmp, float saturationThreshold, float brightnessThreshold) where TPixel : unmanaged, IPixel<TPixel>
+        internal static Dictionary<int, uint> GetColorHueHistogram<TPixel>(Image<TPixel> bmp, float saturationThreshold, float brightnessThreshold) where TPixel : unmanaged, IPixel<TPixel>
         {
             Dictionary<int, uint> colorHueHistorgram = new Dictionary<int, uint>();
             for (int i = 0; i <= 360; i++)

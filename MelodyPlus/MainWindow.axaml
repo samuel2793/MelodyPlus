@@ -29,6 +29,7 @@
       <StackPanel Orientation="Horizontal" >
         <Button Margin="1" Classes="toolbar" FontSize="9" Background="Red" Height="13" Width="13" BorderBrush="Black" Padding="0" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Close">X</Button>
         <Button Margin="1" Classes="toolbar" FontSize="9" Background="Green" Height="13" Width="13"  BorderBrush="Black" Padding="0" Foreground="White" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Click="Minimize">-</Button>
+        <TextBlock x:Name="AppVersion"  Foreground="White" ></TextBlock>
       </StackPanel>
     </Grid>
     <Grid>
