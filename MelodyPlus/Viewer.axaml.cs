@@ -14,6 +14,7 @@ using Avalonia.Media;
 using System.Linq;
 using QRCoder;
 using System.IO;
+using System.Globalization;
 
 namespace MelodyPlus
 {
@@ -189,7 +190,8 @@ namespace MelodyPlus
                 }
                 try
                 {
-                    _playback = _spotify.GetPlayback();
+                    
+                    _playback = _spotify.GetPlayback(new RegionInfo(Model.Settings.Culture.Name).TwoLetterISORegionName);
                 }
                 catch (Exception)
                 {

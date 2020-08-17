@@ -135,4 +135,7 @@
   <data name="ShowProgress" xml:space="preserve">
     <value>Afficher la progression</value>
   </data>
+  <data name="TopMost" xml:space="preserve">
+    <value>Gardez le spectateur au top?</value>
+  </data>
 </root>

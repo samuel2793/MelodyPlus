@@ -76,7 +76,7 @@ namespace MelodyPlus
         }
         private void SettingChanged(object sender, RoutedEventArgs e)
         {
-            UserSettings.Save();
+            Task.Delay(1).ContinueWith(t=> Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(()=>UserSettings.Save(), Avalonia.Threading.DispatcherPriority.Loaded));
             Task.Delay(1).ContinueWith(t => Avalonia.Threading.Dispatcher.UIThread.InvokeAsync(() => viewer?.UpdateImageHeight(), Avalonia.Threading.DispatcherPriority.Loaded));
         }
         private void DarkModeOn(object sender, RoutedEventArgs e)

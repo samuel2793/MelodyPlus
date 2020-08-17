@@ -8,7 +8,7 @@
         SizeToContent="WidthAndHeight"
         SystemDecorations="None"
         CanResize="False"
-        Topmost="True"
+        Topmost="{Binding Settings.TopMost}"
         FontFamily="Calibri"
          Icon="/Icon.ico"
         Background="{Binding BackColour}"

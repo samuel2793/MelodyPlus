@@ -55,6 +55,8 @@
            Foreground="{Binding ForeColour}" Margin="5" IsChecked="{Binding Playlist}" Checked="SettingChanged" Unchecked="SettingChanged" Content="{i18n:Translate ShowPlaylistName}"></CheckBox>
         <CheckBox Background="{Binding BackColour}"
            Foreground="{Binding ForeColour}" Margin="5" IsChecked="{Binding PlaylistCode}" Checked="SettingChanged" Unchecked="SettingChanged"  Content="{i18n:Translate ShowPlaylistShareCode}"></CheckBox>
+        <CheckBox Background="{Binding BackColour}"
+           Foreground="{Binding ForeColour}" Margin="5" IsChecked="{Binding TopMost}" Checked="SettingChanged" Unchecked="SettingChanged"  Content="{i18n:Translate TopMost}"></CheckBox>
         <Button Background="{Binding BackColour}"
             Foreground="{Binding ForeColour}" Width="160"
                     Click="OnButtonClick"

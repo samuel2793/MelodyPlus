@@ -31,6 +31,7 @@ namespace MelodyPlus
         private bool album;
         private bool playlist;
         private bool playlistCode;
+        private bool topmost;
 
         public static void Load()
         {
@@ -64,6 +65,8 @@ namespace MelodyPlus
         public bool Playlist { get => playlist; set => this.RaiseAndSetIfChanged(ref playlist, value); }
         [DataMember]
         public bool PlaylistCode { get => playlistCode; set => this.RaiseAndSetIfChanged(ref playlistCode, value); }
+        [DataMember]
+        public bool TopMost { get => topmost; set => this.RaiseAndSetIfChanged(ref topmost, value); }
         [DataMember]
         public string ProgressBarStyle { get; set; }
         [DataMember]

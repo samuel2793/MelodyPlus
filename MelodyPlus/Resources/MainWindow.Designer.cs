@@ -113,5 +113,14 @@ namespace MelodyPlus.Resources {
                 return ResourceManager.GetString("ShowProgress", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Keep viewer on top?.
+        /// </summary>
+        internal static string TopMost {
+            get {
+                return ResourceManager.GetString("TopMost", resourceCulture);
+            }
+        }
     }
 }
