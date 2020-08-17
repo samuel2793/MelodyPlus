@@ -6,6 +6,17 @@ Cross platform floating [Spotify](https://spotify.com) now playing widget
 - Linux x64
 
 # Releases
+## [1.0.0-beta.3](https://github.com/Thelonedevil/MelodyPlus/releases/tag/1.0.0-beta.3)
+The third beta release of Melody Plus with support for Window x64 and Linux x64.
+
+### New Features
+- Version number in header of settings
+- Keeping the viewer above other windows is now adjustable  
+
+### Known Issues
+- Language selection does not remember your selection between application launches
+- Auto sizing does not work with X11 [see framework issue](https://github.com/AvaloniaUI/Avalonia/issues/1748) 
+
 ## [1.0.0-beta.2](https://github.com/Thelonedevil/MelodyPlus/releases/tag/1.0.0-beta.2)
 The second beta release of Melody Plus with support for Window x64 and Linux x64.
 
