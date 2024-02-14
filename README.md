@@ -18,4 +18,3 @@ Cross platform floating [Spotify](https://spotify.com) now playing widget
 - [ ] Make control buttons
 - [ ] Make it clickable trought option
 - [ ] Make an option so the opacity can be changed
-- [ ] Make 
