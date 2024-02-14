@@ -47,3 +47,11 @@ Linux:
 
 ### Known Issues
 - Auto sizing does not work with X11 [see framework issue](https://github.com/AvaloniaUI/Avalonia/issues/1748) 
+
+## ROADMAP
+- [ ] Add Spanish
+- [ ] Make an option to can grab the whole thing
+- [ ] Work on the style
+- [ ] Show the liked button
+- [ ] Make the liked button work
+- [ ] Make control buttons
